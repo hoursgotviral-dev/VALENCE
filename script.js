@@ -741,11 +741,15 @@
   /* ==========================================================================
      9. CHAPTER 1: WORD-BY-WORD REVEAL & STATS COUNTER (GSAP)
      ========================================================================== */
+  let refreshSTTimer = null;
   function refreshScrollTrigger() {
     if (typeof ScrollTrigger !== 'undefined') {
-      requestAnimationFrame(() => {
-        ScrollTrigger.refresh();
-      });
+      clearTimeout(refreshSTTimer);
+      refreshSTTimer = setTimeout(() => {
+        requestAnimationFrame(() => {
+          ScrollTrigger.refresh();
+        });
+      }, 40);
     }
   }
   function initSparkNarrative() {
@@ -956,6 +960,16 @@
         });
       }
     });
+
+    // Ensure ScrollTrigger recalibrates as event card images finish loading
+    dom.eventsGrid.querySelectorAll('.event-card-img').forEach((img) => {
+      if (img.complete) {
+        refreshScrollTrigger();
+      } else {
+        img.addEventListener('load', refreshScrollTrigger, { once: true });
+        img.addEventListener('error', refreshScrollTrigger, { once: true });
+      }
+    });
   }
 
   let searchDebounceTimer = null;
@@ -1068,11 +1082,11 @@
         scrollTrigger: {
           trigger: spotlightPin,
           pin: true,
+          pinSpacing: true,
           scrub: 1,
           start: 'top top',
           end: () => '+=' + Math.max(900, spotlightTrack.scrollWidth - window.innerWidth + 80),
           invalidateOnRefresh: true,
-          anticipatePin: 1,
           onUpdate: (self) => {
             if (progressFill) {
               progressFill.style.width = `${self.progress * 100}%`;
@@ -2338,6 +2352,7 @@
     initSparkNarrative();
     initCatalogControls();
     renderEventsCatalog();
+    if (dom.eventsGrid) void dom.eventsGrid.offsetHeight;
     initSpotlightCarousel();
     initDiveInTabs();
     initSplitTextHeadings();
@@ -2353,6 +2368,12 @@
     updatePassesBadge();
 
     // Ensure all images and fonts trigger final layout calibration
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => refreshScrollTrigger());
+    }
+    setTimeout(() => refreshScrollTrigger(), 150);
+    setTimeout(() => refreshScrollTrigger(), 500);
+
     window.addEventListener('load', () => {
       refreshScrollTrigger();
     });
