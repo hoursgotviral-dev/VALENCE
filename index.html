@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VALENCE // Experiential Storytelling & Global Immersions</title>
+  <meta name="description" content="VALENCE is a cinematic, scroll-driven experiential platform. Discover premier global summits, acoustic odysseys, kinetic biennales, and athletic championships.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Grain Overlay -->
+  <div class="grain-overlay" aria-hidden="true"></div>
+
+  <!-- Custom Cursor (Desktop Only) -->
+  <div class="custom-cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="custom-cursor-outline" id="cursorOutline" aria-hidden="true">
+    <span class="cursor-label" id="cursorLabel">VIEW</span>
+  </div>
+
+  <!-- Scroll Progress Indicator -->
+  <div class="scroll-progress-bar" id="scrollProgressBar" aria-hidden="true"></div>
+
+  <!-- Canvas Fireworks Particle System (Fixed Full-Screen, Pointer-Events None) -->
+  <canvas id="fireworks" aria-hidden="true"></canvas>
+
+  <!-- Preloader Screen -->
+  <div class="preloader" id="preloader" role="dialog" aria-modal="true" aria-label="Loading Experience">
+    <div class="preloader-curtain preloader-curtain-left"></div>
+    <div class="preloader-curtain preloader-curtain-right"></div>
+    <div class="preloader-content">
+      <div class="preloader-badge">CHAPTER 00 // PROLOGUE</div>
+      <div class="preloader-counter" id="preloaderCounter">00</div>
+      <div class="preloader-progress-track">
+        <div class="preloader-progress-fill" id="preloaderProgressFill"></div>
+      </div>
+      <p class="preloader-caption">CURATING EXTRAORDINARY REALITIES</p>
+    </div>
+  </div>
+
+  <!-- Glassmorphism Navigation Bar -->
+  <header class="navbar" id="navbar">
+    <div class="navbar-container">
+      <a href="#hero" class="nav-brand" aria-label="VALENCE Home">
+        <svg class="brand-logo-svg" width="28" height="28" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="brandLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#3b4cff"/>
+              <stop offset="50%" stop-color="#7b2ff7"/>
+              <stop offset="100%" stop-color="#d4af37"/>
+            </linearGradient>
+          </defs>
+          <path d="M18 3L31 10.5V25.5L18 33L5 25.5V10.5L18 3Z" stroke="url(#brandLogoGrad)" stroke-width="2.2" stroke-linejoin="round"/>
+          <path d="M18 3V18L31 25.5" stroke="url(#brandLogoGrad)" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M18 18L5 25.5" stroke="url(#brandLogoGrad)" stroke-width="1.8" stroke-linejoin="round"/>
+          <circle cx="18" cy="18" r="3.2" fill="#d4af37"/>
+        </svg>
+        <span class="brand-name">VALENCE</span>
+        <span class="brand-tag">EXP</span>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="nav-menu" id="navMenu" aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="#the-spark" class="nav-link"><span class="nav-chapter-num">01</span> The Spark</a></li>
+          <li><a href="#discover" class="nav-link"><span class="nav-chapter-num">02</span> Discover</a></li>
+          <li><a href="#spotlight" class="nav-link"><span class="nav-chapter-num">03</span> Spotlight</a></li>
+          <li><a href="#dive-in" class="nav-link"><span class="nav-chapter-num">04</span> Dive In</a></li>
+          <li><a href="#join" class="nav-link"><span class="nav-chapter-num">05</span> Join Story</a></li>
+        </ul>
+      </nav>
+
+      <!-- Nav Actions -->
+      <div class="nav-actions">
+        <!-- My Registrations Trigger -->
+        <button class="nav-btn btn-glass my-tickets-trigger" id="myTicketsBtn" aria-label="View My Booked Tickets">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"></path>
+            <path d="M13 5v2"></path>
+            <path d="M13 17v2"></path>
+            <path d="M13 11v2"></path>
+          </svg>
+          <span class="btn-text">My Passes</span>
+          <span class="tickets-badge" id="ticketsBadge" aria-label="0 tickets booked">0</span>
+        </button>
+
+        <!-- Light / Dark Mode Toggle -->
+        <button class="nav-btn btn-icon theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button class="nav-btn btn-icon hamburger-btn" id="hamburgerBtn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileDrawer">
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+    <div class="mobile-drawer-backdrop" id="mobileDrawerBackdrop"></div>
+    <div class="mobile-drawer-panel">
+      <div class="mobile-drawer-header">
+        <span class="brand-name">VALENCE // NAVIGATION</span>
+        <button class="btn-icon mobile-drawer-close" id="mobileDrawerClose" aria-label="Close menu">✕</button>
+      </div>
+      <ul class="mobile-nav-links">
+        <li><a href="#hero" class="mobile-link"><span class="nav-chapter-num">00</span> Prologue (Home)</a></li>
+        <li><a href="#the-spark" class="mobile-link"><span class="nav-chapter-num">01</span> The Spark (About)</a></li>
+        <li><a href="#discover" class="mobile-link"><span class="nav-chapter-num">02</span> Discover (Events)</a></li>
+        <li><a href="#spotlight" class="mobile-link"><span class="nav-chapter-num">03</span> Spotlight (Flagships)</a></li>
+        <li><a href="#dive-in" class="mobile-link"><span class="nav-chapter-num">04</span> Dive In (Experience)</a></li>
+        <li><a href="#join" class="mobile-link"><span class="nav-chapter-num">05</span> Join Story (Register)</a></li>
+      </ul>
+      <div class="mobile-drawer-footer">
+        <button class="btn btn-primary btn-full my-tickets-trigger-mobile">
+          View My Passes (<span id="mobileTicketsBadge">0</span>)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN SCROLL STORY CONTAINER -->
+  <main id="mainContent">
+
+    <!-- HERO SECTION (PROLOGUE) -->
+    <section class="section hero-section" id="hero" aria-label="Hero Introduction">
+      <!-- Parallax Gradient Blobs -->
+      <div class="blob-wrapper" aria-hidden="true">
+        <div class="gradient-blob blob-1" id="heroBlob1"></div>
+        <div class="gradient-blob blob-2" id="heroBlob2"></div>
+        <div class="gradient-blob blob-3" id="heroBlob3"></div>
+      </div>
+
+      <div class="container hero-container">
+        <!-- Floating Chapter Badge -->
+        <div class="chapter-badge hero-chapter-badge">
+          <span class="badge-dot"></span>
+          <span>PROLOGUE // THE INVITATION</span>
+        </div>
+
+        <!-- Headline with Split-text effect -->
+        <h1 class="hero-headline" id="heroHeadline">
+          <span class="headline-row"><span class="headline-inner">BEYOND REALITY.</span></span>
+          <span class="headline-row"><span class="headline-inner gradient-text">BEFORE THE WORLD.</span></span>
+        </h1>
+
+        <p class="hero-subtext" id="heroSubtext">
+          The definitive global calendar of visionary neurotech summits, midnight acoustic odysseys, and kinetic cultural spectacles. Curated for those who engineer the frontier.
+        </p>
+
+        <!-- Live Next Event Countdown Card -->
+        <div class="hero-countdown-card" id="heroCountdownCard">
+          <div class="countdown-card-header">
+            <span class="pulse-live-indicator"></span>
+            <span class="countdown-label">NEXT FLAGSHIP EVENT</span>
+          </div>
+          <div class="countdown-event-title" id="heroNextEventTitle">Synapse Neurotech & AI Global Summit</div>
+          <div class="countdown-grid" id="heroTimerGrid">
+            <div class="timer-unit">
+              <span class="timer-val" id="heroDays">00</span>
+              <span class="timer-lbl">DAYS</span>
+            </div>
+            <span class="timer-sep">:</span>
+            <div class="timer-unit">
+              <span class="timer-val" id="heroHours">00</span>
+              <span class="timer-lbl">HOURS</span>
+            </div>
+            <span class="timer-sep">:</span>
+            <div class="timer-unit">
+              <span class="timer-val" id="heroMinutes">00</span>
+              <span class="timer-lbl">MINS</span>
+            </div>
+            <span class="timer-sep">:</span>
+            <div class="timer-unit">
+              <span class="timer-val" id="heroSeconds">00</span>
+              <span class="timer-lbl">SECS</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Magnetic CTAs -->
+        <div class="hero-actions">
+          <a href="#discover" class="btn btn-primary magnetic-btn" id="heroCtaExplore">
+            <span class="btn-content">
+              Explore Lineup
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </span>
+          </a>
+          <a href="#join" class="btn btn-outline magnetic-btn" id="heroCtaRegister">
+            <span class="btn-content">Reserve Access</span>
+          </a>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="hero-scroll-cue" aria-hidden="true">
+          <span class="scroll-cue-text">SCROLL TO UNRAVEL</span>
+          <div class="mouse-icon">
+            <div class="mouse-wheel"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 01: THE SPARK -->
+    <section class="section spark-section" id="the-spark" aria-label="Chapter 1: The Spark">
+      <div class="container">
+        <!-- Chapter Header -->
+        <div class="section-chapter-tag">
+          <span class="chapter-number">01</span>
+          <span class="chapter-divider">/</span>
+          <span class="chapter-title">THE SPARK</span>
+        </div>
+
+        <!-- Narrative Typography with word reveal -->
+        <div class="spark-story-wrapper">
+          <p class="spark-lead-text" id="sparkLeadText">
+            Events shouldn't merely fill calendar dates. They should alter trajectories, spark unexpected collaborations, and leave an indelible sonic and intellectual imprint on everyone in attendance.
+          </p>
+        </div>
+
+        <!-- Animated Number Counters Grid -->
+        <div class="spark-stats-grid" id="statsGrid">
+          <div class="stat-card glass-card">
+            <div class="stat-icon-wrap" aria-hidden="true">◈</div>
+            <div class="stat-number-wrapper">
+              <span class="stat-number" data-target="140" id="statEvents">0</span>
+              <span class="stat-suffix">+</span>
+            </div>
+            <div class="stat-label">Curation Milestones</div>
+            <p class="stat-desc">Exclusive summits, festivals, and cultural forums hosted worldwide.</p>
+          </div>
+
+          <div class="stat-card glass-card">
+            <div class="stat-icon-wrap" aria-hidden="true">◉</div>
+            <div class="stat-number-wrapper">
+              <span class="stat-number" data-target="92000" id="statAttendees">0</span>
+              <span class="stat-suffix">+</span>
+            </div>
+            <div class="stat-label">Active Attendees</div>
+            <p class="stat-desc">Founders, artists, athletes, and polymaths joined across 5 continents.</p>
+          </div>
+
+          <div class="stat-card glass-card">
+            <div class="stat-icon-wrap" aria-hidden="true">◎</div>
+            <div class="stat-number-wrapper">
+              <span class="stat-number" data-target="28" id="statCities">0</span>
+              <span class="stat-suffix"></span>
+            </div>
+            <div class="stat-label">Global Host Cities</div>
+            <p class="stat-desc">From Tokyo and Reykjavik to Berlin, London, San Francisco, and Singapore.</p>
+          </div>
+
+          <div class="stat-card glass-card">
+            <div class="stat-icon-wrap" aria-hidden="true">✦</div>
+            <div class="stat-number-wrapper">
+              <span class="stat-number" data-target="99" id="statSatisfaction">0</span>
+              <span class="stat-suffix">.4%</span>
+            </div>
+            <div class="stat-label">Attendee Delight</div>
+            <p class="stat-desc">Net promoter scoring reflecting unforgettable production design and caliber.</p>
+          </div>
+        </div>
+
+        <!-- Editorial Pillars -->
+        <div class="spark-pillars-grid">
+          <div class="pillar-item">
+            <span class="pillar-index">I. ZERO NOISE</span>
+            <h3>Uncompromising Curation</h3>
+            <p>Every speaker, performer, and venue is rigorously audited to ensure pure signal without corporate fluff.</p>
+          </div>
+          <div class="pillar-item">
+            <span class="pillar-index">II. SENSORY DEPTH</span>
+            <h3>Spatial & Acoustic Mastery</h3>
+            <p>We work with spatial acoustic designers and architectural lighting directors to transform spaces into living art.</p>
+          </div>
+          <div class="pillar-item">
+            <span class="pillar-index">III. GENUINE COHESION</span>
+            <h3>Intimate Density</h3>
+            <p>Carefully capped seating guarantees high attendee-to-luminary access and meaningful peer-to-peer dialogues.</p>
+          </div>
+        </div>
+      </div>
+      <!-- Ambient Parallax Shapes -->
+      <div class="ambient-parallax-shape shape-glow-1" data-speed="0.25" aria-hidden="true"></div>
+      <div class="ambient-parallax-shape shape-ring-1" data-speed="-0.3" aria-hidden="true"></div>
+    </section>
+
+    <!-- SCROLLING MARQUEE STRIP: BETWEEN CH 01 & CH 02 -->
+    <div class="marquee-strip" aria-hidden="true">
+      <div class="marquee-track">
+        <div class="marquee-content">
+          <span>SYNTHETIC BIOLOGY</span><span class="marquee-star">✦</span>
+          <span>NEURAL INTERFACES</span><span class="marquee-star">◈</span>
+          <span>SPATIAL ACOUSTICS</span><span class="marquee-star">✦</span>
+          <span>APEX ESPORTS</span><span class="marquee-star">◈</span>
+          <span>KINETIC ARCHITECTURE</span><span class="marquee-star">✦</span>
+          <span>QUANTUM COMPUTATION</span><span class="marquee-star">◈</span>
+          <span>DIFFUSION SHADERS</span><span class="marquee-star">✦</span>
+          <span>BIOMIMETIC DESIGN</span><span class="marquee-star">◈</span>
+        </div>
+        <div class="marquee-content" aria-hidden="true">
+          <span>SYNTHETIC BIOLOGY</span><span class="marquee-star">✦</span>
+          <span>NEURAL INTERFACES</span><span class="marquee-star">◈</span>
+          <span>SPATIAL ACOUSTICS</span><span class="marquee-star">✦</span>
+          <span>APEX ESPORTS</span><span class="marquee-star">◈</span>
+          <span>KINETIC ARCHITECTURE</span><span class="marquee-star">✦</span>
+          <span>QUANTUM COMPUTATION</span><span class="marquee-star">◈</span>
+          <span>DIFFUSION SHADERS</span><span class="marquee-star">✦</span>
+          <span>BIOMIMETIC DESIGN</span><span class="marquee-star">◈</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAPTER 02: DISCOVER -->
+    <section class="section discover-section" id="discover" aria-label="Chapter 2: Discover Events">
+      <!-- Ambient Parallax Shapes -->
+      <div class="ambient-parallax-shape shape-glow-2" data-speed="-0.2" aria-hidden="true"></div>
+      <div class="container">
+        <!-- Chapter Header -->
+        <div class="section-chapter-tag">
+          <span class="chapter-number">02</span>
+          <span class="chapter-divider">/</span>
+          <span class="chapter-title">DISCOVER</span>
+        </div>
+
+        <div class="section-title-wrap">
+          <h2 class="section-headline">THE 2026 / 2027 CALENDAR</h2>
+          <p class="section-subheadline">Browse world-class events across technology, music, sports, masterclasses, and culture.</p>
+        </div>
+
+        <!-- Filter & Search Controls Bar -->
+        <div class="catalog-controls glass-card">
+          <!-- Search Input -->
+          <div class="search-box">
+            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input 
+              type="text" 
+              id="eventSearchInput" 
+              class="search-input" 
+              placeholder="Search by event title, venue, city, or topic..." 
+              aria-label="Search events by keyword"
+              autocomplete="off"
+            >
+            <button class="search-clear-btn" id="searchClearBtn" aria-label="Clear search query" style="display: none;">✕</button>
+          </div>
+
+          <!-- Category Chips -->
+          <div class="category-chips-wrapper" role="radiogroup" aria-label="Filter events by category">
+            <button class="chip-btn active" data-category="All" role="radio" aria-checked="true">All</button>
+            <button class="chip-btn" data-category="Tech" role="radio" aria-checked="false">Tech</button>
+            <button class="chip-btn" data-category="Music" role="radio" aria-checked="false">Music</button>
+            <button class="chip-btn" data-category="Sports" role="radio" aria-checked="false">Sports</button>
+            <button class="chip-btn" data-category="Workshop" role="radio" aria-checked="false">Workshop</button>
+            <button class="chip-btn" data-category="Cultural" role="radio" aria-checked="false">Cultural</button>
+          </div>
+        </div>
+
+        <!-- Active Results Info -->
+        <div class="catalog-meta-bar">
+          <span class="results-count" id="resultsCount">Showing 11 experiences</span>
+          <span class="results-note">Click any card to inspect full schedule & reserve pass</span>
+        </div>
+
+        <!-- Event Cards Grid -->
+        <div class="events-grid" id="eventsGrid" aria-live="polite">
+          <!-- Dynamically populated by script.js -->
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state-card glass-card" id="emptyState" style="display: none;">
+          <div class="empty-icon">🔍</div>
+          <h3>No Experiences Found</h3>
+          <p>We couldn't find any events matching your current search or category filter. Try broadening your keywords.</p>
+          <button class="btn btn-outline" id="resetFiltersBtn">Reset All Filters</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 03: SPOTLIGHT (FEATURED EVENTS) -->
+    <section class="section spotlight-section" id="spotlight" aria-label="Chapter 3: Spotlight Featured Events">
+      <!-- Ambient Parallax Floating Shape -->
+      <div class="ambient-parallax-shape shape-glow-2" data-speed="-0.15" aria-hidden="true"></div>
+
+      <div class="container spotlight-header-container">
+        <!-- Chapter Header -->
+        <div class="section-chapter-tag">
+          <span class="chapter-number">03</span>
+          <span class="chapter-divider">/</span>
+          <span class="chapter-title">SPOTLIGHT</span>
+        </div>
+
+        <div class="spotlight-header-row">
+          <div class="spotlight-title-group">
+            <h2 class="section-headline">FLAGSHIP IMMERSIONS</h2>
+            <p class="section-subheadline">
+              Our crown jewel productions featuring bespoke stage architecture, global live broadcasts, and legendary lineups.
+            </p>
+          </div>
+
+          <div class="spotlight-scroll-cue" aria-hidden="true">
+            <span class="scroll-cue-text">SCROLL HORIZONTALLY</span>
+            <span class="scroll-cue-arrow">→</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pinned Horizontal Scroll Section Wrapper (100vh on desktop) -->
+      <div class="spotlight-pin" id="spotlightPin">
+        <div class="spotlight-track" id="spotlightTrack">
+          
+          <!-- Panel 01 -->
+          <article class="spotlight-panel" data-event-id="evt-1">
+            <div class="spotlight-panel-media">
+              <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1600&q=80" alt="Synapse Neurotech & AI Global Summit" class="spotlight-panel-img" loading="lazy">
+              <div class="spotlight-panel-overlay"></div>
+            </div>
+            <div class="spotlight-giant-number" aria-hidden="true">01</div>
+            <div class="spotlight-panel-body">
+              <span class="spotlight-panel-badge">FLAGSHIP 01 // GLOBAL TECH SUMMIT</span>
+              <h3 class="spotlight-panel-title">SYNAPSE NEUROTECH & AI</h3>
+              <p class="spotlight-panel-desc">
+                Exploring synthetic biology, brain-computer interfaces, and quantum computing with 80 pioneers over 3 days in Tokyo.
+              </p>
+              <div class="spotlight-panel-meta">
+                <span class="meta-pill">📍 Tokyo Midtown Hall, Tokyo</span>
+                <span class="meta-pill">🗓️ Nov 22–24, 2026</span>
+                <span class="meta-pill price-pill">🎟️ $450 • 28 Passes Left</span>
+              </div>
+              <div class="spotlight-panel-actions">
+                <button class="btn btn-primary open-details-btn" data-id="evt-1">View Details</button>
+                <button class="btn btn-outline quick-register-btn" data-id="evt-1">Register</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Panel 02 -->
+          <article class="spotlight-panel" data-event-id="evt-2">
+            <div class="spotlight-panel-media">
+              <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1600&q=80" alt="Lumina Solstice Neon Odyssey" class="spotlight-panel-img" loading="lazy">
+              <div class="spotlight-panel-overlay"></div>
+            </div>
+            <div class="spotlight-giant-number" aria-hidden="true">02</div>
+            <div class="spotlight-panel-body">
+              <span class="spotlight-panel-badge">FLAGSHIP 02 // ARCTIC SOUND FESTIVAL</span>
+              <h3 class="spotlight-panel-title">LUMINA SOLSTICE ODYSSEY</h3>
+              <p class="spotlight-panel-desc">
+                A 48-hour continuous ambient electronic and neoclassical auditory voyage under the ethereal Arctic midnight sky.
+              </p>
+              <div class="spotlight-panel-meta">
+                <span class="meta-pill">📍 Harpa Concert Hall, Reykjavik</span>
+                <span class="meta-pill">🗓️ Dec 18–20, 2026</span>
+                <span class="meta-pill price-pill">🎟️ $320 • 42 Passes Left</span>
+              </div>
+              <div class="spotlight-panel-actions">
+                <button class="btn btn-primary open-details-btn" data-id="evt-2">View Details</button>
+                <button class="btn btn-outline quick-register-btn" data-id="evt-2">Register</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Panel 03 -->
+          <article class="spotlight-panel" data-event-id="evt-3">
+            <div class="spotlight-panel-media">
+              <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1600&q=80" alt="Velocity World Esports Championship" class="spotlight-panel-img" loading="lazy">
+              <div class="spotlight-panel-overlay"></div>
+            </div>
+            <div class="spotlight-giant-number" aria-hidden="true">03</div>
+            <div class="spotlight-panel-body">
+              <span class="spotlight-panel-badge">FLAGSHIP 03 // APEX ESPORTS ARENA</span>
+              <h3 class="spotlight-panel-title">VELOCITY WORLD INVITATIONAL</h3>
+              <p class="spotlight-panel-desc">
+                The world's highest-stakes tactical showdown. Holographic arena projection, 360-degree spatial sound, and $2M championship purse.
+              </p>
+              <div class="spotlight-panel-meta">
+                <span class="meta-pill">📍 Mercedes-Benz Arena, Berlin</span>
+                <span class="meta-pill">🗓️ Jan 14–17, 2027</span>
+                <span class="meta-pill price-pill">🎟️ $180 • 75 Passes Left</span>
+              </div>
+              <div class="spotlight-panel-actions">
+                <button class="btn btn-primary open-details-btn" data-id="evt-3">View Details</button>
+                <button class="btn btn-outline quick-register-btn" data-id="evt-3">Register</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Panel 04 -->
+          <article class="spotlight-panel" data-event-id="evt-4">
+            <div class="spotlight-panel-media">
+              <img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=1600&q=80" alt="Horizon Kinetic Architecture Biennale" class="spotlight-panel-img" loading="lazy">
+              <div class="spotlight-panel-overlay"></div>
+            </div>
+            <div class="spotlight-giant-number" aria-hidden="true">04</div>
+            <div class="spotlight-panel-body">
+              <span class="spotlight-panel-badge">FLAGSHIP 04 // ARCHITECTURAL BIENNALE</span>
+              <h3 class="spotlight-panel-title">HORIZON KINETIC BIENNALE</h3>
+              <p class="spotlight-panel-desc">
+                Responsive architecture, zero-emission pavilions, and speculative biomimicry urban prototypes unveiled across London.
+              </p>
+              <div class="spotlight-panel-meta">
+                <span class="meta-pill">📍 Tate Modern Turbine Hall, London</span>
+                <span class="meta-pill">🗓️ Feb 05–08, 2027</span>
+                <span class="meta-pill price-pill">🎟️ $210 • 35 Passes Left</span>
+              </div>
+              <div class="spotlight-panel-actions">
+                <button class="btn btn-primary open-details-btn" data-id="evt-4">View Details</button>
+                <button class="btn btn-outline quick-register-btn" data-id="evt-4">Register</button>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- Scroll Progress Bar filling as track moves -->
+        <div class="spotlight-progress-wrap" aria-hidden="true">
+          <div class="spotlight-progress-fill" id="spotlightProgressFill"></div>
+        </div>
+      </div>
+
+      <!-- Mobile Pagination Dots (Visible on <= 768px) -->
+      <div class="container spotlight-footer-container">
+        <div class="spotlight-carousel-dots" id="spotlightDots" role="tablist" aria-label="Featured events pagination">
+          <button class="spotlight-dot active" role="tab" aria-selected="true" data-index="0" aria-label="Slide 1"></button>
+          <button class="spotlight-dot" role="tab" aria-selected="false" data-index="1" aria-label="Slide 2"></button>
+          <button class="spotlight-dot" role="tab" aria-selected="false" data-index="2" aria-label="Slide 3"></button>
+          <button class="spotlight-dot" role="tab" aria-selected="false" data-index="3" aria-label="Slide 4"></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCROLLING MARQUEE STRIP: BETWEEN CH 03 & CH 04 -->
+    <div class="marquee-strip marquee-reverse" aria-hidden="true">
+      <div class="marquee-track">
+        <div class="marquee-content">
+          <span>FLAGSHIP TOKYO 2026</span><span class="marquee-star">✦</span>
+          <span>REYKJAVIK SOLSTICE</span><span class="marquee-star">◈</span>
+          <span>BERLIN INVITATIONAL</span><span class="marquee-star">✦</span>
+          <span>LONDON BIENNALE</span><span class="marquee-star">◈</span>
+          <span>ZURICH QUANTUM ATELIER</span><span class="marquee-star">✦</span>
+          <span>PARIS DIFFUSION LAB</span><span class="marquee-star">◈</span>
+          <span>SINGAPORE BIO-DESIGN</span><span class="marquee-star">✦</span>
+          <span>SAN FRANCISCO SILICON</span><span class="marquee-star">◈</span>
+        </div>
+        <div class="marquee-content" aria-hidden="true">
+          <span>FLAGSHIP TOKYO 2026</span><span class="marquee-star">✦</span>
+          <span>REYKJAVIK SOLSTICE</span><span class="marquee-star">◈</span>
+          <span>BERLIN INVITATIONAL</span><span class="marquee-star">✦</span>
+          <span>LONDON BIENNALE</span><span class="marquee-star">◈</span>
+          <span>ZURICH QUANTUM ATELIER</span><span class="marquee-star">✦</span>
+          <span>PARIS DIFFUSION LAB</span><span class="marquee-star">◈</span>
+          <span>SINGAPORE BIO-DESIGN</span><span class="marquee-star">✦</span>
+          <span>SAN FRANCISCO SILICON</span><span class="marquee-star">◈</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAPTER 04: DIVE IN -->
+    <section class="section dive-in-section" id="dive-in" aria-label="Chapter 4: Dive In">
+      <!-- Ambient Parallax Shapes -->
+      <div class="ambient-parallax-shape shape-glow-3" data-speed="0.3" aria-hidden="true"></div>
+      <div class="container">
+        <!-- Chapter Header -->
+        <div class="section-chapter-tag">
+          <span class="chapter-number">04</span>
+          <span class="chapter-divider">/</span>
+          <span class="chapter-title">DIVE IN</span>
+        </div>
+
+        <div class="section-title-wrap">
+          <h2 class="section-headline">THE MULTI-STAGE ECOSYSTEM</h2>
+          <p class="section-subheadline">Every VALENCE event is engineered as a multi-dimensional sensory environment. Explore the core experience dimensions.</p>
+        </div>
+
+        <!-- Interactive Stage Tabs / Preview Explorer -->
+        <div class="experience-explorer glass-card">
+          <div class="explorer-tabs" role="tablist" aria-label="Experience dimensions">
+            <button class="explorer-tab-btn active" role="tab" aria-selected="true" aria-controls="tab-keynote" id="tabBtn-keynote" data-target="keynote">
+              <span class="tab-index">01</span> The Keynote Forum
+            </button>
+            <button class="explorer-tab-btn" role="tab" aria-selected="false" aria-controls="tab-workshops" id="tabBtn-workshops" data-target="workshops">
+              <span class="tab-index">02</span> Masterclass Ateliers
+            </button>
+            <button class="explorer-tab-btn" role="tab" aria-selected="false" aria-controls="tab-expo" id="tabBtn-expo" data-target="expo">
+              <span class="tab-index">03</span> Sensory Showcase
+            </button>
+            <button class="explorer-tab-btn" role="tab" aria-selected="false" aria-controls="tab-afterhours" id="tabBtn-afterhours" data-target="afterhours">
+              <span class="tab-index">04</span> Nocturne Lounge
+            </button>
+          </div>
+
+          <div class="explorer-content-body">
+            <!-- Panel 1 -->
+            <div class="explorer-panel active" id="tab-keynote" role="tabpanel" aria-labelledby="tabBtn-keynote">
+              <div class="panel-grid">
+                <div class="panel-info">
+                  <span class="panel-badge">CORE ARENA</span>
+                  <h3>Unfiltered Keynotes & Firesides</h3>
+                  <p>No teleprompters. No pre-rehearsed marketing soundbites. Our mainstage brings together world-class thought leaders in raw, provocative dialogue with unfiltered audience Q&A.</p>
+                  <ul class="panel-features">
+                    <li>✓ 360-Degree Spatial Audio Projection</li>
+                    <li>✓ Real-time multi-lingual transcript stream</li>
+                    <li>✓ Intimate, amphitheatric sightlines</li>
+                  </ul>
+                  <a href="#discover" class="btn btn-outline btn-sm">Find Mainstage Events</a>
+                </div>
+                <div class="panel-image-wrap">
+                  <img src="https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=1000&q=80" alt="Mainstage Keynote Arena with dramatic lighting" loading="lazy">
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel 2 -->
+            <div class="explorer-panel" id="tab-workshops" role="tabpanel" aria-labelledby="tabBtn-workshops" style="display: none;">
+              <div class="panel-grid">
+                <div class="panel-info">
+                  <span class="panel-badge">TACTICAL LABS</span>
+                  <h3>Small-Group Masterclasses</h3>
+                  <p>Intensive 3-hour ateliers capped strictly at 30 participants. Build real prototypes, conduct design critiques, write code, or execute live culinary and sonic synthesis with master practitioners.</p>
+                  <ul class="panel-features">
+                    <li>✓ 1:1 mentorship checkpoints</li>
+                    <li>✓ Comprehensive hardware & asset kits included</li>
+                    <li>✓ Verified accreditation & direct repository access</li>
+                  </ul>
+                  <a href="#discover" class="btn btn-outline btn-sm">Explore Workshops</a>
+                </div>
+                <div class="panel-image-wrap">
+                  <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1000&q=80" alt="Collaborative workshop atelier with laptops" loading="lazy">
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel 3 -->
+            <div class="explorer-panel" id="tab-expo" role="tabpanel" aria-labelledby="tabBtn-expo" style="display: none;">
+              <div class="panel-grid">
+                <div class="panel-info">
+                  <span class="panel-badge">EXPERIMENTAL FLOOR</span>
+                  <h3>Interactive Installations & Demos</h3>
+                  <p>Touch tomorrow before it ships to the public. Test holographic displays, next-gen robotic exoskeletons, bio-acoustic sound chambers, and generative art engines.</p>
+                  <ul class="panel-features">
+                    <li>✓ Curated hands-on sandbox spaces</li>
+                    <li>✓ Direct interactions with creators and engineers</li>
+                    <li>✓ Kinetic art installations by leading digital artists</li>
+                  </ul>
+                  <a href="#discover" class="btn btn-outline btn-sm">View Showcases</a>
+                </div>
+                <div class="panel-image-wrap">
+                  <img src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=1000&q=80" alt="Sensory light installation showcase" loading="lazy">
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel 4 -->
+            <div class="explorer-panel" id="tab-afterhours" role="tabpanel" aria-labelledby="tabBtn-afterhours" style="display: none;">
+              <div class="panel-grid">
+                <div class="panel-info">
+                  <span class="panel-badge">NETWORKING & NIGHTLIFE</span>
+                  <h3>The Nocturne Lounge & Soundscapes</h3>
+                  <p>The real breakthroughs happen after hours. Ambient DJ sets, bespoke mixology, and organic mingling in low-lit, architecturally stunning spaces designed for meaningful human connection.</p>
+                  <ul class="panel-features">
+                    <li>✓ Curated vinyl and modular synth performances</li>
+                    <li>✓ Private conversation enclaves and speakeasies</li>
+                    <li>✓ Premium artisanal gastronomy & refreshments</li>
+                  </ul>
+                  <a href="#join" class="btn btn-outline btn-sm">Join the Community</a>
+                </div>
+                <div class="panel-image-wrap">
+                  <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1000&q=80" alt="Atmospheric evening lounge with ambient lighting" loading="lazy">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 05: JOIN THE STORY (REGISTRATION FORM) -->
+    <section class="section join-section" id="join" aria-label="Chapter 5: Join the Story - Registration">
+      <!-- Ambient Parallax Floating Shapes -->
+      <div class="ambient-parallax-shape shape-glow-4" data-speed="-0.25" aria-hidden="true"></div>
+      <div class="ambient-parallax-shape shape-ring-2" data-speed="0.2" aria-hidden="true"></div>
+
+      <div class="container">
+        <!-- Chapter Header -->
+        <div class="section-chapter-tag">
+          <span class="chapter-number">05</span>
+          <span class="chapter-divider">/</span>
+          <span class="chapter-title">JOIN THE STORY</span>
+        </div>
+
+        <div class="join-layout">
+          <!-- Left Column: Inspiring Copy & Guarantee -->
+          <div class="join-intro">
+            <h2 class="section-headline">SECURE YOUR PASSAGE</h2>
+            <p class="join-lead">
+              Seating across all AURA gatherings is strictly capped to preserve intellectual density and sensory intimacy. Reserve your accreditation in under two minutes.
+            </p>
+
+            <div class="perks-list">
+              <div class="perk-item">
+                <div class="perk-icon">✦</div>
+                <div class="perk-text">
+                  <strong>Instant Digital Pass</strong>
+                  <p>Unique cryptographically signed ticket ID saved directly to your local pass wallet.</p>
+                </div>
+              </div>
+              <div class="perk-item">
+                <div class="perk-icon">◈</div>
+                <div class="perk-text">
+                  <strong>Full Multi-Track Access</strong>
+                  <p>Admission to all keynotes, breakout salons, expo halls, and the evening Nocturne reception.</p>
+                </div>
+              </div>
+              <div class="perk-item">
+                <div class="perk-icon">◉</div>
+                <div class="perk-text">
+                  <strong>Flexible Cancellation Policy</strong>
+                  <p>Cancel your pass at any moment from your pass drawer to instantly liberate your seat for others.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Registration Form Card -->
+          <div class="join-form-card glass-card">
+            <div class="form-header">
+              <span class="form-subtitle">OFFICIAL ACCREDITATION FORM</span>
+              <h3 class="form-title">Attendee Registration</h3>
+            </div>
+
+            <form id="registrationForm" class="registration-form" novalidate>
+              <!-- Full Name Field -->
+              <div class="form-group" id="groupName">
+                <label for="regName" class="form-label">
+                  Full Name <span class="required-star">*</span>
+                </label>
+                <div class="input-wrapper">
+                  <input 
+                    type="text" 
+                    id="regName" 
+                    name="name" 
+                    class="form-control" 
+                    placeholder="e.g. Alex Vance" 
+                    required 
+                    autocomplete="name"
+                  >
+                  <span class="validation-icon" aria-hidden="true"></span>
+                </div>
+                <span class="field-error-msg" id="errorName" role="alert">Please enter at least 3 letters.</span>
+              </div>
+
+              <!-- Email Field -->
+              <div class="form-group" id="groupEmail">
+                <label for="regEmail" class="form-label">
+                  Email Address <span class="required-star">*</span>
+                </label>
+                <div class="input-wrapper">
+                  <input 
+                    type="email" 
+                    id="regEmail" 
+                    name="email" 
+                    class="form-control" 
+                    placeholder="alex@nexus-domain.com" 
+                    required 
+                    autocomplete="email"
+                  >
+                  <span class="validation-icon" aria-hidden="true"></span>
+                </div>
+                <span class="field-error-msg" id="errorEmail" role="alert">Please provide a valid email address.</span>
+              </div>
+
+              <!-- Phone Field -->
+              <div class="form-group" id="groupPhone">
+                <label for="regPhone" class="form-label">
+                  Phone Number (10 Digits) <span class="required-star">*</span>
+                </label>
+                <div class="input-wrapper">
+                  <input 
+                    type="tel" 
+                    id="regPhone" 
+                    name="phone" 
+                    class="form-control" 
+                    placeholder="9876543210" 
+                    maxlength="10" 
+                    required 
+                    autocomplete="tel"
+                  >
+                  <span class="validation-icon" aria-hidden="true"></span>
+                </div>
+                <span class="field-error-msg" id="errorPhone" role="alert">Must contain exactly 10 numerical digits.</span>
+              </div>
+
+              <!-- Event Dropdown Field -->
+              <div class="form-group" id="groupEvent">
+                <label for="regEvent" class="form-label">
+                  Select Experience <span class="required-star">*</span>
+                </label>
+                <div class="input-wrapper select-wrapper">
+                  <select id="regEvent" name="event" class="form-control" required>
+                    <option value="" disabled selected>Choose an event from the calendar...</option>
+                    <!-- Options populated via script.js with dynamic seats left -->
+                  </select>
+                  <span class="select-chevron" aria-hidden="true">▼</span>
+                  <span class="validation-icon" aria-hidden="true"></span>
+                </div>
+                <span class="field-error-msg" id="errorEvent" role="alert">Please select an event to attend.</span>
+              </div>
+
+              <!-- Form Global Error / Warning Box (e.g. duplicate booking) -->
+              <div class="form-alert-box" id="formAlertBox" role="alert" style="display: none;"></div>
+
+              <!-- Submit Button -->
+              <button type="submit" class="btn btn-primary btn-full submit-btn" id="regSubmitBtn" aria-label="Confirm Registration">
+                <span class="btn-spinner" aria-hidden="true"></span>
+                <span class="btn-label">Confirm Registration</span>
+              </button>
+
+              <p class="form-footnote">
+                🔒 Protected by local cryptographic storage. No spam, ever.
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EPILOGUE (FOOTER) -->
+    <footer class="section epilogue-section" id="epilogue" aria-label="Epilogue and Footer">
+      <div class="container">
+        <!-- Chapter Header -->
+        <div class="section-chapter-tag">
+          <span class="chapter-number">06</span>
+          <span class="chapter-divider">/</span>
+          <span class="chapter-title">EPILOGUE</span>
+        </div>
+
+        <div class="epilogue-hero">
+          <h2 class="epilogue-title">THE FUTURE BELONGS TO THOSE WHO GATHER.</h2>
+          <p class="epilogue-subtitle">Stay enlightened with rare dispatches on future flagship releases, secret salons, and architectural installations.</p>
+          
+          <form class="newsletter-form" id="newsletterForm" onsubmit="event.preventDefault(); alert('Subscribed to AURA Dispatches!');">
+            <input type="email" placeholder="Enter your email for private dispatches..." required class="newsletter-input" aria-label="Email for private dispatches">
+            <button type="submit" class="btn btn-primary newsletter-btn">Subscribe</button>
+          </form>
+        </div>
+
+        <div class="footer-grid">
+          <div class="footer-col brand-col">
+            <div class="footer-brand">
+              <svg class="brand-logo-svg" width="26" height="26" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+                <path d="M18 3L31 10.5V25.5L18 33L5 25.5V10.5L18 3Z" stroke="url(#brandLogoGrad)" stroke-width="2.2" stroke-linejoin="round"/>
+                <path d="M18 3V18L31 25.5" stroke="url(#brandLogoGrad)" stroke-width="1.8" stroke-linejoin="round"/>
+                <path d="M18 18L5 25.5" stroke="url(#brandLogoGrad)" stroke-width="1.8" stroke-linejoin="round"/>
+                <circle cx="18" cy="18" r="3.2" fill="#22d3ee"/>
+              </svg>
+              <span class="brand-name">VALENCE</span>
+            </div>
+            <p class="footer-tagline">Cinematic event design & cultural storytelling engine. Empowering the collective human experience.</p>
+            <div class="system-status">
+              <span class="status-indicator"></span>
+              <span class="status-text">All Event Systems Operational (2026/2027)</span>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h4 class="footer-heading">NAVIGATION</h4>
+            <ul class="footer-links">
+              <li><a href="#hero">00 / Prologue</a></li>
+              <li><a href="#the-spark">01 / The Spark</a></li>
+              <li><a href="#discover">02 / Discover Lineup</a></li>
+              <li><a href="#spotlight">03 / Spotlight Flagships</a></li>
+              <li><a href="#dive-in">04 / Dive In</a></li>
+              <li><a href="#join">05 / Join The Story</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h4 class="footer-heading">COMMUNITY & SOCIAL</h4>
+            <ul class="footer-links">
+              <li><a href="https://x.com" target="_blank" rel="noopener noreferrer">Twitter / X ↗</a></li>
+              <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram ↗</a></li>
+              <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></li>
+              <li><a href="https://youtube.com" target="_blank" rel="noopener noreferrer">YouTube Keynotes ↗</a></li>
+              <li><a href="https://github.com" target="_blank" rel="noopener noreferrer">Open Source Repo ↗</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h4 class="footer-heading">CURATION HUBS</h4>
+            <ul class="footer-links">
+              <li>Tokyo • Shibuya Cross</li>
+              <li>Reykjavik • Grandi District</li>
+              <li>Berlin • Kreuzberg Studio</li>
+              <li>London • Southbank Enclave</li>
+              <li>San Francisco • SoMa Lab</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>© 2026 VALENCE Experiences Inc. Built with HTML5, CSS3 & Vanilla JavaScript. Designed for storytelling.</p>
+          <div class="footer-bottom-links">
+            <a href="#hero">Privacy Policy</a>
+            <span>•</span>
+            <a href="#hero">Code of Conduct</a>
+            <span>•</span>
+            <a href="#hero">Security & Terms</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- EVENT DETAILS MODAL (CHAPTER 4 REQUIREMENT) -->
+  <div class="modal-backdrop" id="eventModal" role="dialog" aria-modal="true" aria-labelledby="modalEventTitle" aria-hidden="true">
+    <div class="modal-dialog glass-card">
+      <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close details modal">✕</button>
+      
+      <div class="modal-banner-wrap">
+        <img src="" alt="" id="modalEventImg" class="modal-banner-img">
+        <div class="modal-banner-overlay">
+          <span class="modal-category-badge" id="modalEventCategory">Category</span>
+          <span class="modal-seats-badge" id="modalEventSeats">Seats Available</span>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-meta-row">
+          <span class="modal-meta-item" id="modalEventDate">🗓️ Date</span>
+          <span class="modal-meta-item" id="modalEventVenue">📍 Venue</span>
+          <span class="modal-meta-item modal-price-item" id="modalEventPrice">🎟️ $0</span>
+        </div>
+
+        <h2 class="modal-title" id="modalEventTitle">Event Title</h2>
+
+        <!-- Event Live Countdown in Modal -->
+        <div class="modal-countdown-box">
+          <span class="modal-cd-label">COUNTDOWN TO OPENING KEYNOTE:</span>
+          <div class="modal-cd-grid" id="modalCountdownGrid">
+            <div class="m-cd-unit"><span id="mDays">00</span><small>D</small></div>
+            <span class="m-cd-sep">:</span>
+            <div class="m-cd-unit"><span id="mHours">00</span><small>H</small></div>
+            <span class="m-cd-sep">:</span>
+            <div class="m-cd-unit"><span id="mMinutes">00</span><small>M</small></div>
+            <span class="m-cd-sep">:</span>
+            <div class="m-cd-unit"><span id="mSeconds">00</span><small>S</small></div>
+          </div>
+        </div>
+
+        <!-- Full Description -->
+        <div class="modal-section">
+          <h4 class="modal-subheading">About This Experience</h4>
+          <p class="modal-desc" id="modalEventDesc">Full description text will load here...</p>
+        </div>
+
+        <!-- Event Timeline / Schedule -->
+        <div class="modal-section">
+          <h4 class="modal-subheading">Curated Schedule</h4>
+          <div class="modal-schedule-list" id="modalEventSchedule">
+            <!-- Populated via script.js -->
+          </div>
+        </div>
+
+        <!-- Modal Action Footer -->
+        <div class="modal-footer">
+          <button class="btn btn-outline" id="modalDismissBtn">Return to Grid</button>
+          <button class="btn btn-primary" id="modalRegisterBtn">
+            <span>Register for this Event</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REGISTRATION SUCCESS CONFIRMATION MODAL -->
+  <div class="modal-backdrop" id="successModal" role="dialog" aria-modal="true" aria-labelledby="successTitle" aria-hidden="true">
+    <div class="modal-dialog success-dialog glass-card">
+      <button class="modal-close-btn" id="successCloseBtn" aria-label="Close confirmation modal">✕</button>
+
+      <div class="success-header">
+        <!-- Animated SVG Checkmark -->
+        <div class="svg-checkmark-container" aria-hidden="true">
+          <svg class="checkmark-svg" viewBox="0 0 52 52">
+            <circle class="checkmark-circle" cx="26" cy="26" r="24" fill="none"/>
+            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+          </svg>
+        </div>
+        <span class="success-badge">ACCREDITATION CONFIRMED</span>
+        <h2 class="success-title" id="successTitle">You're in the Story!</h2>
+        <p class="success-subtitle">Your digital pass is verified and stored in your browser wallet.</p>
+      </div>
+
+      <!-- Pass Ticket Preview Card -->
+      <div class="ticket-card" id="ticketCardPreview">
+        <div class="ticket-card-top">
+          <div class="ticket-brand">◈ VALENCE PASS</div>
+          <div class="ticket-booking-id">PASS #<span id="succBookingId">NX-00000</span></div>
+        </div>
+        <div class="ticket-card-body">
+          <div class="ticket-event-name" id="succEventName">Event Name</div>
+          <div class="ticket-details-grid">
+            <div class="t-item">
+              <span class="t-label">ATTENDEE</span>
+              <span class="t-val" id="succAttendeeName">Attendee Name</span>
+            </div>
+            <div class="t-item">
+              <span class="t-label">DATE & TIME</span>
+              <span class="t-val" id="succDate">Nov 22, 2026</span>
+            </div>
+            <div class="t-item">
+              <span class="t-label">VENUE / LOCATION</span>
+              <span class="t-val" id="succVenue">Tokyo Midtown</span>
+            </div>
+            <div class="t-item">
+              <span class="t-label">TIER ACCESS</span>
+              <span class="t-val">All-Access General</span>
+            </div>
+          </div>
+        </div>
+        <div class="ticket-card-footer">
+          <div class="ticket-barcode" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <span class="ticket-security-code">VERIFIED ◈ SHA256</span>
+        </div>
+      </div>
+
+      <div class="success-actions">
+        <button class="btn btn-glass" id="printTicketBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+            <rect x="6" y="14" width="12" height="8"></rect>
+          </svg>
+          Print / Save Pass (PDF)
+        </button>
+        <button class="btn btn-outline" id="viewMyTicketsFromSuccessBtn">View Passes Wallet</button>
+        <button class="btn btn-primary" id="successDoneBtn">Explore More Experiences</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- "MY REGISTRATIONS" SLIDE-OVER DRAWER -->
+  <div class="drawer-backdrop" id="myRegistrationsDrawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" aria-hidden="true">
+    <div class="drawer-panel glass-card">
+      <div class="drawer-header">
+        <div class="drawer-header-left">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"></path>
+          </svg>
+          <h3 id="drawerTitle">My Pass Portfolio</h3>
+        </div>
+        <button class="btn-icon drawer-close-btn" id="drawerCloseBtn" aria-label="Close passes drawer">✕</button>
+      </div>
+
+      <div class="drawer-body">
+        <p class="drawer-summary" id="drawerSummaryText">Stored locally on your device.</p>
+        
+        <!-- List of bookings -->
+        <div class="booked-tickets-list" id="bookedTicketsList">
+          <!-- Populated via script.js -->
+        </div>
+
+        <!-- Empty state in drawer -->
+        <div class="drawer-empty-state" id="drawerEmptyState" style="display: none;">
+          <div class="drawer-empty-icon">🎫</div>
+          <h4>No Passes Booked Yet</h4>
+          <p>You haven't reserved admission to any upcoming experiences. Browse our calendar to secure your pass.</p>
+          <a href="#discover" class="btn btn-primary btn-sm" id="drawerBrowseBtn">Browse Calendar</a>
+        </div>
+      </div>
+
+      <div class="drawer-footer">
+        <button class="btn btn-outline btn-full" id="drawerDismissBtn">Close Drawer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING BACK-TO-TOP BUTTON -->
+  <button class="back-to-top-btn" id="backToTopBtn" aria-label="Scroll back to top" title="Scroll to top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="12" y1="19" x2="12" y2="5"></line>
+      <polyline points="5 12 12 5 19 12"></polyline>
+    </svg>
+  </button>
+
+  <!-- Smooth Scroll Engine: Lenis via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.1.18/lenis.min.js"></script>
+
+  <!-- External Libraries: GSAP & ScrollTrigger via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Main Application Script -->
+  <script src="script.js"></script>
+</body>
+</html>
+
