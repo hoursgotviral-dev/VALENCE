@@ -1035,7 +1035,9 @@
   /* ==========================================================================
      11. CHAPTER 3: SPOTLIGHT // PINNED HORIZONTAL SCROLL & RESPONSIVE CAROUSEL
      ========================================================================== */
+  let spotlightInitialized = false;
   function initSpotlightCarousel() {
+    if (spotlightInitialized) return;
     const spotlightSection = document.getElementById('spotlight');
     const spotlightPin = document.getElementById('spotlightPin');
     const spotlightTrack = document.getElementById('spotlightTrack');
@@ -1044,6 +1046,7 @@
     const panels = document.querySelectorAll('.spotlight-panel');
 
     if (!spotlightSection || !spotlightPin || !spotlightTrack || panels.length === 0) return;
+    spotlightInitialized = true;
 
     // Attach button click handlers for modals and registration
     document.querySelectorAll('.spotlight-panel .open-details-btn').forEach((btn) => {
@@ -1074,18 +1077,18 @@
     mm.add('(min-width: 769px)', () => {
       if (prefersReducedMotion) return;
 
-      const getScrollAmount = () => -(spotlightTrack.scrollWidth - window.innerWidth + 80);
+      const getScrollAmount = () => -(spotlightTrack.scrollWidth - window.innerWidth);
 
       const pinTween = gsap.to(spotlightTrack, {
         x: getScrollAmount,
         ease: 'none',
         scrollTrigger: {
-          trigger: spotlightPin,
+          trigger: spotlightPin, // exact unique .spotlight-pin element inside #spotlight
           pin: true,
           pinSpacing: true,
           scrub: 1,
           start: 'top top',
-          end: () => '+=' + Math.max(900, spotlightTrack.scrollWidth - window.innerWidth + 80),
+          end: () => '+=' + (spotlightTrack.scrollWidth - window.innerWidth),
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             if (progressFill) {
@@ -2349,16 +2352,24 @@
     initCustomCursor();
     initScrollTracking();
     startHeroCountdown();
+
+    // 1. Split-text headings (Hero, Ch1, Ch2 headlines: splits DOM text into spans before ScrollTriggers)
+    initSplitTextHeadings();
+
+    // 2. Chapter 1 (Spark word scrub & stat counters)
     initSparkNarrative();
+
+    // 3. Chapter 2 (Discover events catalog, cards, filters)
     initCatalogControls();
     renderEventsCatalog();
     if (dom.eventsGrid) void dom.eventsGrid.offsetHeight;
-    initSpotlightCarousel();
-    initDiveInTabs();
-    initSplitTextHeadings();
+
+    // 4. Parallax ambient shapes and chapter background color shifts
     initParallaxShapes();
     initChapterColorShifts();
-    initCardClipPathReveal();
+
+    // 5. Subsequent chapters, modals, registration & drawers
+    initDiveInTabs();
     initModalHandlers();
     populateEventDropdown();
     initFormValidation();
@@ -2367,16 +2378,24 @@
     initMobileMenu();
     updatePassesBadge();
 
+    // 6. Chapter 3: Spotlight pinned horizontal scroll created ONLY AFTER window "load"
+    const setupSpotlight = () => {
+      initSpotlightCarousel();
+      refreshScrollTrigger();
+    };
+
+    if (document.readyState === 'complete') {
+      setupSpotlight();
+    } else {
+      window.addEventListener('load', setupSpotlight);
+    }
+
     // Ensure all images and fonts trigger final layout calibration
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(() => refreshScrollTrigger());
     }
     setTimeout(() => refreshScrollTrigger(), 150);
     setTimeout(() => refreshScrollTrigger(), 500);
-
-    window.addEventListener('load', () => {
-      refreshScrollTrigger();
-    });
 
     let resizeTimer = null;
     window.addEventListener('resize', () => {

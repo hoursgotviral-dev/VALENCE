@@ -129,6 +129,7 @@ body {
   color: var(--text);
   line-height: 1.6;
   overflow-x: hidden;
+  overflow-x: clip;
   position: relative;
   transition: background-color var(--trans-smooth), color var(--trans-smooth);
 }
@@ -1658,10 +1659,46 @@ ul {
 }
 
 /* Pinned Wrapper on Desktop */
+@media (min-width: 769px) {
+  .spotlight-section {
+    height: 100vh;
+    padding: 2.5rem 0 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .spotlight-header-container {
+    margin-bottom: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .spotlight-pin {
+    position: relative;
+    width: 100%;
+    flex: 1;
+    height: auto;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+
+  .spotlight-panel {
+    height: 72vh;
+    max-height: 580px;
+  }
+
+  .spotlight-progress-wrap {
+    flex-shrink: 0;
+  }
+}
+
 .spotlight-pin {
   position: relative;
   width: 100%;
-  height: 100vh;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -3243,6 +3280,7 @@ ul {
 html, body {
   max-width: 100%;
   overflow-x: hidden;
+  overflow-x: clip;
   position: relative;
 }
 
