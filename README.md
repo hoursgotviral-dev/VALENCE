@@ -24,7 +24,7 @@
   - `--text: #f5f2e8`, `--text-muted: #a8a5b3` (WCAG AAA contrast: 18.5:1)
   - **Light Mode**: Warm cream (`#faf6ea`) background with dark espresso text and gradient accents.
 - **Live Preview URL**: [https://valence-events.vercel.app](https://valence-events.vercel.app) *(Deploy-ready placeholder)*
-- **Repository**: [https://github.com/your-username/valence-events](https://github.com/your-username/valence-events)
+- **Repository**: [https://github.com/hoursgotviral-dev/VALENCE](https://github.com/hoursgotviral-dev/VALENCE)
 
 ### Hero Showcase
 ```
